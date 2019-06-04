@@ -30,7 +30,7 @@ app.use(globalErrorMiddleware.globalErrorHandler);
 
 
 
-
+//dirname stands for current directory and client is the folder
 app.use(express.static(path.join(__dirname, 'client')));
 
 const modelsPath = './app/models';
@@ -81,7 +81,11 @@ console.log(appConfig);
 server.listen(appConfig.port);
 server.on('error', onError);
 server.on('listening', onListening);
+//end server listening code
 
+//socket io connection handler
+const socketLib = require('./app/libs/socketLib');
+const socketServer = socketLib.setServer(server);
 
 //event listener for http server "error" event
 
@@ -132,8 +136,7 @@ process.on('unhandledRejection',(reason,p)=>{
 mongoose.connection.on('error', function (err) {
     console.log('database connection error');
     console.log(err)
-    logger.error(err,
-      'mongoose connection on error handler', 10)
+    logger.error(err,'mongoose connection on error handler', 10)
     //process.exit(1)
   }); // end mongoose connection error
   

@@ -42,11 +42,11 @@ let signUpFunction = (req,res)=>{
                 let apiResponse = response.generate(true, 'One or More Parameter(s) is missing', 400, null)
                 reject(apiResponse)
             }
-        })
+        });
     }// end validate user input
     let createUser = () => {
         return new Promise((resolve, reject) => {
-            UserModel.findOne({ email: req.body.email })
+            userModel.findOne({ email: req.body.email })
                 .exec((err, retrievedUserDetails) => {
                     if (err) {
                         logger.error(err.message, 'userController: createUser', 10)
@@ -54,7 +54,7 @@ let signUpFunction = (req,res)=>{
                         reject(apiResponse)
                     } else if (check.isEmpty(retrievedUserDetails)) {
                         console.log(req.body)
-                        let newUser = new UserModel({
+                        let newUser = new userModel({
                             userId: shortid.generate(),
                             firstName: req.body.firstName,
                             lastName: req.body.lastName || '',
